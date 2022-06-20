@@ -1,2 +1,28 @@
-// 2. Write a program to fork a new child process to display list of files and parent process should
-// wait for the completion of child.
+#include <sys/types.h>
+#include <stdio.h>
+#include <unistd.h>
+int main()
+{
+    pid_t pid;
+    /* fork another process */
+    pid = fork();
+    if (pid < 0)
+    {
+        /* error occurred */
+        fprintf(stderr, "Fork Failed");
+        return 1;
+    }
+    else if (pid == 0)
+    {
+        /* child process */
+        execlp("/bin/ls", "ls", NULL);
+    }
+    else
+    {
+        /* parent process */
+        /* parent will wait for the child */
+        // wait(NULL);
+        printf("Child Complete");
+    }
+    return 0;
+}
